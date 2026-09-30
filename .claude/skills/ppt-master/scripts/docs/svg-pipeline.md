@@ -150,6 +150,29 @@ Dependency:
 pip install python-pptx
 ```
 
+## `svg_to_pdf.py`
+
+Optional, on-demand PDF export of the page design. Renders `svg_final/` with
+Playwright (Chromium) into one vector PDF: one page per slide at the canvas
+size, selectable text, fonts embedded by Chromium.
+
+```bash
+python3 scripts/svg_to_pdf.py <project_path>                 # exports/<title>_ver<N>.pdf
+python3 scripts/svg_to_pdf.py <project_path> -o out/deck.pdf
+```
+
+- Refreshes `svg_final/` through `finalize_svg.py` first when it is missing, has a different page set, or is older than `svg_output/`.
+- Default `N` matches the latest exported `<title>_ver<N>.pptx` (1 when none exists), so the PDF pairs with that deck; an existing PDF of the same name is overwritten.
+- Each page is embedded as an isolated SVG document, so element ids never collide across slides. A deck mixing canvas sizes is rejected.
+- Visual page design only: transitions, animations, speaker notes, and narration are not carried over, and edits made in PowerPoint after export are not reflected (the source is `svg_output/`).
+
+Dependency:
+
+```bash
+pip install playwright
+python3 -m playwright install chromium
+```
+
 ## `total_md_split.py`
 
 Split `total.md` into per-slide note files.

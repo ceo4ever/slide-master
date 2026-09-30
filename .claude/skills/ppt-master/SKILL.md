@@ -111,6 +111,7 @@ enhancement do not load or inherit this file.
 | `${SKILL_DIR}/scripts/total_md_split.py` | Speaker notes splitting |
 | `${SKILL_DIR}/scripts/finalize_svg.py` | SVG post-processing (unified entry; on-demand — Step 7.2 is deferred by default) |
 | `${SKILL_DIR}/scripts/svg_to_pptx.py` | Export to PPTX |
+| `${SKILL_DIR}/scripts/svg_to_pdf.py` | Optional vector PDF of the page design (Playwright; on request, after Step 7.3) |
 | `${SKILL_DIR}/scripts/verify_deck.py` | Final deck verification gate — stage parity/freshness, native PPTX integrity, plan + SVG re-check, optional OfficeCLI OpenXML validation + contact-sheet render (run after Step 7) |
 | `${SKILL_DIR}/scripts/run_telemetry.py` | Opt-in explicit-run lifecycle + fixed low-variance metric telemetry for pre-registered benchmarks |
 | `${SKILL_DIR}/scripts/measure_run.py` | Explicit telemetry-run report; legacy artifact timestamps remain non-comparable diagnostics only |
@@ -966,6 +967,8 @@ animation playback in Keynote or other presentation applications.
 
 > ❌ **NEVER** substitute `cp` for `finalize_svg.py` — finalize performs multiple critical processing steps
 > ❌ **NEVER** use `-s final` for a release export. It is a diagnostic comparison only; the supported native route reads `svg_output/`.
+
+**Optional PDF export** (only when the user asks for a PDF): `python3 ${SKILL_DIR}/scripts/svg_to_pdf.py <project_path>` writes `exports/<title>_ver<N>.pdf` (N pairs with the latest PPTX) from `svg_final/`, refreshing it via `finalize_svg.py` when stale. Page design only — no transitions, animations, or notes; PowerPoint-side edits are not reflected. Details: [`scripts/docs/svg-pipeline.md`](scripts/docs/svg-pipeline.md).
 
 **Final deck verification (mandatory — before declaring the deck done)**: one command re-checks stage parity/freshness (stale finalize or export), native PPTX integrity (zip, per-slide editable DrawingML, page count), the planning artifacts, and SVG quality; when OfficeCLI is installed it also validates OpenXML and renders one whole-deck contact sheet of the exported PPTX to `<project_path>/_pptx_render/<stem>-grid.png` (auto-skips when OfficeCLI is absent):
 
