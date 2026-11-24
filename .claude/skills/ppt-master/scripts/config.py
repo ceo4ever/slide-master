@@ -162,6 +162,18 @@ def load_prefixed_env_file(
     return env_path
 
 
+def get_projects_dir() -> Path:
+    """Return the configured workspace, or the historical local default."""
+    load_prefixed_env_file(('PPT_MASTER_PROJECTS_DIR',))
+    value = os.environ.get('PPT_MASTER_PROJECTS_DIR', '').strip()
+    if not value:
+        return Path.cwd() / 'projects'
+    path = Path(value).expanduser()
+    if not path.is_absolute():
+        raise ValueError('PPT_MASTER_PROJECTS_DIR must be an absolute path')
+    return path
+
+
 # ============================================================
 # Canvas Format Configuration
 # ============================================================

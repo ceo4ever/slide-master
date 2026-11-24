@@ -42,6 +42,7 @@ if str(_SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS_DIR))
 
 from console_encoding import configure_utf8_stdio  # noqa: E402
+from config import get_projects_dir  # noqa: E402
 from pptx_animations import (  # noqa: E402
     object_animation_fingerprint,
     validate_pptx_animation_package,
@@ -914,7 +915,7 @@ def build_parser() -> argparse.ArgumentParser:
     init.add_argument("source_pptx", help="source .pptx file")
     init.add_argument("--name", default=None, help="ASCII project name slug")
     init.add_argument("--project-dir", default=None, help="explicit project directory")
-    init.add_argument("--projects-root", default="projects", help="projects root (default: projects)")
+    init.add_argument("--projects-root", default=str(get_projects_dir()), help="projects root (default: configured workspace)")
     init.add_argument("--transition", default="fade", choices=sorted(TRANSITIONS.keys()))
     init.add_argument("--transition-duration", type=_positive_seconds_arg, default=0.5)
     init.add_argument("--narration-padding", type=_non_negative_seconds_arg, default=0.4)

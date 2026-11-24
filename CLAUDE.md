@@ -81,6 +81,15 @@ of treating a root-level command list as a gate checklist.
 
 ## Core Directories
 
+The user project workspace is configured by `PPT_MASTER_PROJECTS_DIR` in the
+process environment or the repository `.env` (process environment wins). Use
+an absolute path. If unset, the default remains `projects/` in the working
+directory. Treat every workflow reference to `projects/` as the configured
+workspace; use the actual initialized project path for subsequent commands,
+and resolve the configured path before creating research files directly.
+An explicit output directory supplied by the user takes precedence. Each Mac
+needs its own `.env`; changing the value does not move existing files.
+
 - `.claude/skills/ppt-master/SKILL.md` — main SVG workflow authority.
 - `.claude/skills/ppt-template-fill/SKILL.md` — raw-template direct-PPTX authority.
 - `.claude/skills/native-enhance-pptx/SKILL.md` — finished-PPTX enhancement entry owner.
@@ -91,4 +100,4 @@ of treating a root-level command list as a gate checklist.
 - `.claude/skills/ppt-master/workflows/` — standalone workflow files.
 - `docs/` — user-facing documentation (FAQ, installation, technical design, templates guide, audio narration).
 - `docs/rules/` — repo-wide style rules.
-- `projects/` — user project workspace.
+- `projects/` — default user project workspace when not configured externally.

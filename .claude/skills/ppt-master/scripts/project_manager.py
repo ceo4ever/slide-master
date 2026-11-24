@@ -23,6 +23,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from console_encoding import configure_utf8_stdio
+from config import get_projects_dir
 
 try:
     from project_utils import (
@@ -115,7 +116,7 @@ class ProjectManager:
     CANVAS_FORMATS = CANVAS_FORMATS
 
     def __init__(self, base_dir: str | Path | None = None) -> None:
-        self.base_dir = Path(base_dir) if base_dir is not None else Path.cwd() / "projects"
+        self.base_dir = Path(base_dir) if base_dir is not None else get_projects_dir()
 
     def init_project(
         self,
